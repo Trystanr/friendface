@@ -1,0 +1,43 @@
+<?php
+
+namespace Symfony\Component\VarExporter\Internal;
+
+return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
+    $o = [
+        clone (($p = &Registry::$prototypes)['Doctrine\\ORM\\Mapping\\ManyToMany'] ?? Registry::p('Doctrine\\ORM\\Mapping\\ManyToMany')),
+        clone ($p['Doctrine\\ORM\\Mapping\\JoinTable'] ?? Registry::p('Doctrine\\ORM\\Mapping\\JoinTable')),
+        clone ($p['Doctrine\\ORM\\Mapping\\JoinColumn'] ?? Registry::p('Doctrine\\ORM\\Mapping\\JoinColumn')),
+        clone $p['Doctrine\\ORM\\Mapping\\JoinColumn'],
+    ],
+    null,
+    [
+        'stdClass' => [
+            'targetEntity' => [
+                'App\\Entity\\UserProfile',
+            ],
+            'inversedBy' => [
+                'friendsReceived',
+            ],
+            'name' => [
+                1 => 'friendship',
+                'sender_id',
+                'receiver_id',
+            ],
+            'joinColumns' => [
+                1 => [
+                    $o[2],
+                ],
+            ],
+            'inverseJoinColumns' => [
+                1 => [
+                    $o[3],
+                ],
+            ],
+        ],
+    ],
+    [
+        $o[0],
+        $o[1],
+    ],
+    []
+);
